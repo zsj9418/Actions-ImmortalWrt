@@ -10,7 +10,7 @@
 # Description: OpenWrt DIY script part 1 (Before Update feeds)
 #
 
-echo "src-git helloworld https://github.com/fw876/helloworld.git;master" >> "feeds.conf.default"
+#echo "src-git helloworld https://github.com/fw876/helloworld.git;master" >> "feeds.conf.default"
 #echo "src-git customsd https://github.com/Ljzkirito/smartdns-openwrt.git;Release46-conf" >> "feeds.conf.default"
 
 # Replace /lib/netifd/ppp-down
