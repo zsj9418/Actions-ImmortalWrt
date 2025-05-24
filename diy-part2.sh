@@ -52,7 +52,7 @@ git clone --depth 1 https://github.com/muink/luci-app-natmapt.git package/luci-a
 rm -rfv feeds/helloworld/dns2socks-rust
 rm -rfv feeds/helloworld/v2raya
 
-sed -i 's/192.168.1.1/192.168.5.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.3.18/g' package/base-files/files/bin/config_generate
 
 #git clone --depth=1 -b master https://github.com/fw876/helloworld
 #Replace_package="xray-core xray-plugin v2ray-core v2ray-plugin hysteria ipt2socks microsocks redsocks2 chinadns-ng dns2socks dns2tcp naiveproxy simple-obfs tcping tuic-client"
