@@ -57,7 +57,7 @@ git clone https://github.com/nikkinikki-org/OpenWrt-nikki package/OpenWrt-nikki
 git clone https://github.com/0x676e67/luci-app-watchcat-plus package/luci-app-watchcat-plus
 git clone https://github.com/animegasan/luci-app-quickstart package/luci-app-quickstart
 
-sed -i 's/192.168.1.1/192.168.3.18/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.3.60/g' package/base-files/files/bin/config_generate
 
 #git clone --depth=1 -b master https://github.com/fw876/helloworld
 #Replace_package="xray-core xray-plugin v2ray-core v2ray-plugin hysteria ipt2socks microsocks redsocks2 chinadns-ng dns2socks dns2tcp naiveproxy simple-obfs tcping tuic-client"
