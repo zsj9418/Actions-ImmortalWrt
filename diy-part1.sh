@@ -15,6 +15,5 @@ sed -i 's/ +6in4//g' package/emortal/ipv6-helper/Makefile
 sed -i '/hotplug.d/d' package/emortal/ipv6-helper/Makefile
 rm -fv package/emortal/ipv6-helper/files/60-6in4
 
-# Add luci-app-pushbot feed（推送通知）
+# Add luci-app-pushbot feed
 echo "src-git pushbot https://github.com/zzsj0928/luci-app-pushbot.git;master" >> "feeds.conf.default"
-
