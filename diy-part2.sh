@@ -9,7 +9,7 @@
 # File name: diy-part2.sh
 # Description: OpenWrt DIY script part 2 (After Update feeds)
 #
-# 修复点1：移除 set -e，改为每步单独错误处理，避免网络超时导致整个脚本中断
+# 【重要修正】移除 set -e，改为带重试的安全函数，避免网络超时崩溃链
 
 # ============ 带重试的安全 git clone 函数 ============
 safe_clone() {
@@ -19,6 +19,7 @@ safe_clone() {
     local count=0
     while [ $count -lt $max_retry ]; do
         if git clone --depth=1 "$url" "$dest"; then
+            echo "✅ 克隆成功: $url -> $dest"
             return 0
         fi
         count=$((count + 1))
@@ -30,7 +31,7 @@ safe_clone() {
     exit 1
 }
 
-# ============ OpenWrt golang 最新版（daed 编译依赖）============
+# ============ OpenWrt golang 最新版（daed 编译依赖最新 golang）============
 rm -rfv feeds/packages/lang/golang
 safe_clone https://github.com/sbwml/packages_lang_golang feeds/packages/lang/golang
 
@@ -38,16 +39,16 @@ safe_clone https://github.com/sbwml/packages_lang_golang feeds/packages/lang/gol
 rm -rfv feeds/luci/themes/luci-theme-argon
 safe_clone https://github.com/jerrykuku/luci-theme-argon.git feeds/luci/themes/luci-theme-argon
 
-# ============ 修复点2：分开克隆 luci-app-daed 和 daed 主程序 ============
-# luci 前端
-safe_clone https://github.com/QiuSimons/luci-app-daed package/luci-app-daed
-# daed 主程序（eBPF 代理本体，原脚本完全缺失此步骤）
-safe_clone https://github.com/daeuniverse/openwrt-daed package/daed
+# ============ 【核心修正】luci-app-daed 正确用法 ============
+# QiuSimons/luci-app-daed 仓库内部已包含 daed 主程序的完整 OpenWrt package Makefile
+# 编译时会自动下载 daeuniverse/daed 源码并编译，无需单独克隆 daed 主程序
+# 正确做法：整个仓库克隆到 package/dae（单一目录）
+safe_clone https://github.com/QiuSimons/luci-app-daed package/dae
 
 # ============ 修改默认 IP（360T7 用户自定义地址）============
 if [ -f "package/base-files/files/bin/config_generate" ]; then
-  sed -i 's/192.168.1.1/192.168.3.60/g' package/base-files/files/bin/config_generate
-  echo "✅ 默认 IP 已修改为 192.168.3.60"
+    sed -i 's/192.168.1.1/192.168.3.60/g' package/base-files/files/bin/config_generate
+    echo "✅ 默认 IP 已修改为 192.168.3.60"
 else
-  echo "⚠️  config_generate 文件未找到，跳过 IP 修改"
+    echo "⚠️  config_generate 未找到，跳过 IP 修改"
 fi
